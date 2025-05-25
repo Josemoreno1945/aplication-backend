@@ -5,8 +5,8 @@ import department from "../models/departments.model.js"
 //---------------------------------Get---------------------------------------
 export const getDepartments = async(req,res)=>{
     try{
-        const departments =await department.findAll()
-        res.json(departments);
+        const getDept =await department.findAll()
+        res.json(getDept);
     }catch(error){
         console.error("Error getting department:", error);
         res.status(500).send("Error getting department");
@@ -17,12 +17,12 @@ export const getDepartments = async(req,res)=>{
 export const getDepartmentsId = async(req,res)=>{
     try{
         const id=req.params.id
-        const departments = await department.findByPk(id) 
+        const getDeptid = await department.findByPk(id) 
 
-        if (!departments){
+        if (!getDeptid){
             return res.status(404).json({ messaje : "Department not found"});
         }
-        res.json(departments);
+        res.json(getDeptid);
 
     }catch(error){
         console.error("Error getting department:", error);
@@ -34,8 +34,8 @@ export const getDepartmentsId = async(req,res)=>{
 export const postDeparments = async(req,res)=>{
     try{
         const data=req.body
-        const  departments = await department.create(data)
-        return res.json(departments)
+        const  postDept = await department.create(data)
+        return res.json(postDept)
     }   
     catch(error){
         console.error("Error when creating department:", error);
@@ -48,10 +48,8 @@ export const putDeparments = async(req,res)=>{
     try{
         const id = req.params.id
         const data = req.body
-        const {rows}= await pool.query('UPDATE departments SET name=$1, address=$2, phone=$3, email=$4, operational_status=$5 WHERE id_departments=$6 RETURNING *' ,
-        [data.name, data.address, data.phone, data.email, data.operational_status,id])
-
-        res.json(rows[0]);
+        const putDept = await department.update(data,{ where: { id_departments: id } }) 
+        res.json(putDept);
     }
     catch(error){
         console.error("Error when creating department:", error);
@@ -64,13 +62,13 @@ export const putDeparments = async(req,res)=>{
 export const deleteDepartments = async(req,res)=>{
     try{
         const id=req.params.id
-        const {rowCount} = await pool.query(`DELETE FROM departments WHERE id_departments = $1`,[id])
+        const deleteDept = await department.destroy({ where: { id_departments: id } })
 
-        if (rowCount.length===0){
-            return res.status(404).json({ messaje : "Department not found"});
+        if (deleteDept===0){
+            return res.status(404).json({ message : "Department not found"});
         }
         else{
-            return res.json({messaje:"delete department"});
+            return res.json({message:"delete department"});
         }
     }catch(error){
         console.error("Error getting department:", error);
