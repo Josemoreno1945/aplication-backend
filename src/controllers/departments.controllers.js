@@ -1,11 +1,12 @@
-import pool from "../db.js"
+import { pool, sequelize } from '../db.js';
+import department from "../models/departments.model.js"
 
 
 //---------------------------------Get---------------------------------------
 export const getDepartments = async(req,res)=>{
     try{
-        const {rows} = await pool.query("SELECT * FROM departments")
-        res.json(rows);
+        const departments =await department.findAll()
+        res.json(departments);
     }catch(error){
         console.error("Error getting department:", error);
         res.status(500).send("Error getting department");
@@ -16,12 +17,12 @@ export const getDepartments = async(req,res)=>{
 export const getDepartmentsId = async(req,res)=>{
     try{
         const id=req.params.id
-        const {rows} = await pool.query(`SELECT * FROM departments WHERE id_departments = $1`,[id])
+        const departments = await department.findByPk(id) 
 
-        if (rows.length===0){
+        if (!departments){
             return res.status(404).json({ messaje : "Department not found"});
         }
-        res.json(rows[0]);
+        res.json(departments);
 
     }catch(error){
         console.error("Error getting department:", error);
@@ -33,9 +34,8 @@ export const getDepartmentsId = async(req,res)=>{
 export const postDeparments = async(req,res)=>{
     try{
         const data=req.body
-        const {rows} = await pool.query('INSERT INTO departments(name, address, phone, email, operational_status) VALUES ($1,$2,$3,$4,$5) RETURNING*',
-        [data.name, data.address, data.phone, data.email, data.operational_status])
-        return res.json(rows[0])
+        const  departments = await department.create(data)
+        return res.json(departments)
     }   
     catch(error){
         console.error("Error when creating department:", error);
