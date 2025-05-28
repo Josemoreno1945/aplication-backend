@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { pool, sequelize } from '../db.js';
+import { pool } from '../db.js';
 
 const router=Router()
 
