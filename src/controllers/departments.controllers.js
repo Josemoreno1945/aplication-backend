@@ -1,28 +1,30 @@
-import { pool, sequelize } from '../db.js';
-import department from "../models/departments.model.js"
+import { pool } from '../db.js';
+import { getDept,getDeptid ,postDept,putDept,deleteDept} from "../models/departments.model.js"
 
 
 //---------------------------------Get---------------------------------------
-export const getDepartments = async(req,res)=>{
+export const getDepartments  = async (req,res)=>{
     try{
-        const getDept =await department.findAll()
-        res.json(getDept);
+        const rows = await getDept()
+        res.json(rows);
     }catch(error){
         console.error("Error getting department:", error);
         res.status(500).send("Error getting department");
     }
 }
+
+
 
 //---------------------------------Get---------------------------------------
 export const getDepartmentsId = async(req,res)=>{
     try{
         const id=req.params.id
-        const getDeptid = await department.findByPk(id) 
+        const rows = await getDeptid(id)
 
-        if (!getDeptid){
+        if (!rows || rows.length === 0){
             return res.status(404).json({ messaje : "Department not found"});
         }
-        res.json(getDeptid);
+        res.json(rows);
 
     }catch(error){
         console.error("Error getting department:", error);
@@ -30,12 +32,13 @@ export const getDepartmentsId = async(req,res)=>{
     }
 }
 
+
 //-------------------------------Post-----------------------------------------
 export const postDeparments = async(req,res)=>{
     try{
         const data=req.body
-        const  postDept = await department.create(data)
-        return res.json(postDept)
+        const  rows = await postDept(data)
+        return res.json(rows)
     }   
     catch(error){
         console.error("Error when creating department:", error);
@@ -48,23 +51,24 @@ export const putDeparments = async(req,res)=>{
     try{
         const id = req.params.id
         const data = req.body
-        const putDept = await department.update(data,{ where: { id_departments: id } }) 
-        res.json(putDept);
+        const rows = await putDept(id,data)
+        res.json(rows);
     }
     catch(error){
-        console.error("Error when creating department:", error);
-        res.status(500).send("Error when creating department");
+        console.error("Error updating department:", error);
+        res.status(500).send("Error updating department");
     }
 }
+
 
 //-------------------------------Delete-----------------------------------------
 
 export const deleteDepartments = async(req,res)=>{
     try{
         const id=req.params.id
-        const deleteDept = await department.destroy({ where: { id_departments: id } })
+        const rows = await deleteDept(id)
 
-        if (deleteDept===0){
+        if (rows===0){
             return res.status(404).json({ message : "Department not found"});
         }
         else{
@@ -75,3 +79,4 @@ export const deleteDepartments = async(req,res)=>{
         res.status(500).send("Error getting department");
     }
 }
+    

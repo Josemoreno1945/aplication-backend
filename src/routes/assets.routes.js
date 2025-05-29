@@ -1,18 +1,16 @@
 import { Router } from "express";
-import { pool, sequelize } from '../db.js';
-import {getAssets} from "../controllers/assets.controllers.js"
-import { getAssetsId } from "../controllers/assets.controllers.js";
-import {postAssets} from "../controllers/assets.controllers.js"
-import { putAssets } from "../controllers/assets.controllers.js";
-import {deleteAssets} from "../controllers/assets.controllers.js"
+import { pool} from '../db.js';
+
+import {deleteAssets, getAssets, getAssetsid, postAssets, putAssets} from "../controllers/assets.controllers.js"
+
 
 const router=Router()
 
 //---------------------------------Get---------------------------------------
 router.get('/assets',getAssets)
 
-//------------------------------Get------------------------------------------
-router.get('/assets/:id',getAssetsId)
+//---------------------------------Get---------------------------------------
+router.get('/assets/:id',getAssetsid)
 
 //-------------------------------Post-----------------------------------------
 router.post('/assets',postAssets)

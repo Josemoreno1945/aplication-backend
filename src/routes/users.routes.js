@@ -1,5 +1,9 @@
 import { Router } from "express";
+
 import { createUsers, deleteUsers, getUserid, getusers, updateUsers } from '../controllers/users.controllers.js'
+
+import { pool } from '../db.js';
+
 
 const router=Router();
 

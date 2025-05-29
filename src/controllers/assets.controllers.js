@@ -1,11 +1,11 @@
-import { pool, sequelize } from '../db.js';
-import assets from '../models/assets.model.js';
+import { pool} from '../db.js';
+import {deleteA, getA,getAid, postA,putA} from '../models/assets.model.js';
 
 //---------------------------------Get---------------------------------------
 export const getAssets = async(req,res)=>{
     try{
-        const getAssets =await assets.findAll()
-        res.json(getAssets);
+        const result  = await getA()
+        res.json(result);
     }catch(error){
         console.error("Error getting assets:", error);
         res.status(500).send("Error getting assets");
@@ -13,32 +13,29 @@ export const getAssets = async(req,res)=>{
 }
 
 //---------------------------------Get---------------------------------------
-export const getAssetsId = async(req,res)=>{
+export const getAssetsid = async(req,res)=>{
     try{
-        const id=req.params.id
-        const getAssetsId = await assets.findByPk(id) 
-
-        if (!getAssetsId){
-            return res.status(404).json({ messaje : "Asset not found"});
-        }
-        res.json(getAssetsId);
-
+        const id = req.params.id
+        const result  = await getAid(id)
+        res.json(result);
     }catch(error){
-        console.error("Error getting asset:", error);
-        res.status(500).send("Error getting asset");
+        console.error("Error getting assets:", error);
+        res.status(500).send("Error getting assets");
     }
 }
 
+
 //-------------------------------Post-----------------------------------------
-export const postAssets = async(req,res)=>{
+export const postAssets= async(req,res)=>{
     try{
-        const data=req.body
-        const  postAssets = await assets.create(data)
-        return res.json(postAssets)
+        const data=req.body[0]
+        console.log(data)
+        const  rows = await postA(data)
+        return res.json(rows)
     }   
     catch(error){
-        console.error("Error when creating assets:", error);
-        res.status(500).send("Error when creating assets");
+        console.error("Error when creating asset:", error);
+        res.status(500).send("Error when creating asset");
     } 
 }
 
@@ -46,24 +43,25 @@ export const postAssets = async(req,res)=>{
 export const putAssets = async(req,res)=>{
     try{
         const id = req.params.id
-        const data = req.body
-        const putAssets = await assets.update(data,{ where: { id_assets: id } }) 
-        res.json(putAssets);
+        const data = req.body[0]
+        const rows = await putA(id,data)
+        res.json(rows);
     }
     catch(error){
-        console.error("Error when creating Assets:", error);
-        res.status(500).send("Error when creating Assets");
+        console.error("Error updating asset:", error);
+        res.status(500).send("Error updating asset");
     }
 }
+
 
 //-------------------------------Delete-----------------------------------------
 
 export const deleteAssets = async(req,res)=>{
     try{
         const id=req.params.id
-        const deleteAssets = await assets.destroy({ where: { id_assets: id } })
+        const rows = await deleteA(id)
 
-        if (deleteAssets===0){
+        if (rows===0){
             return res.status(404).json({ message : "Asset not found"});
         }
         else{
@@ -74,3 +72,4 @@ export const deleteAssets = async(req,res)=>{
         res.status(500).send("Error getting asset");
     }
 }
+    
