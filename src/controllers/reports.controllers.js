@@ -1,9 +1,9 @@
-import { getReport, getReportid, createReport, deleteReport, updateReport} from '../models/reports.model.js';
+import { getR, getRid, createReport, deleteReport, updateReport} from '../models/reports.model.js';
 
 //get
 export const getReport = (req, res) => {
     try{
-        const rows = getReport();
+        const rows = getR();
         res.json(rows);
     }
 

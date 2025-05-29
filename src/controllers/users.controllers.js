@@ -1,9 +1,9 @@
-import { getusers, getUserid, createUsers, deleteUsers, updateUsers} from '../models/users.model.js';
+import { getU, getUid, createU, deleteU, updateU} from '../models/users.model.js';
 
 //get
 export const getusers = (req, res) => {
     try{
-        const rows = getusers();
+        const rows = getU();
         res.json(rows);
     }
 
@@ -15,7 +15,7 @@ export const getusers = (req, res) => {
 
 export const getUserid = async (req, res) => {
     try{
-    const id=req.params;
+    const id=req.params.id;
     const rows = await getUid(id);
 
     if (!rows || rows.length === 0) {
