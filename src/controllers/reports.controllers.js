@@ -1,4 +1,4 @@
-import { getR, getRid, createReport, deleteReport, updateReport} from '../models/reports.model.js';
+import { getR, getRid, createR, deleteR, updateR} from '../models/reports.model.js';
 
 //get
 export const getReport = (req, res) => {
