@@ -1,4 +1,4 @@
-import { getU, getUid, createU, deleteUid, updateUid} from '../models/users.model.js';
+import { getU, getUid, createU, deleteUid, updateUid} from '../models/users.model';
 
 //get
 export const getusers = async (req, res) => {
