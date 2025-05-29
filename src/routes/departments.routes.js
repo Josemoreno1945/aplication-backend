@@ -16,12 +16,12 @@ router.get('/departments',getDepartments)
 router.get('/departments/:id',getDepartmentsId)
 
 //-------------------------------Post-----------------------------------------
-router.post('/departments',postDeparments)
+router.post('/department',postDeparments)
 
 //--------------------------------Put----------------------------------------
 router.put('/departments/:id',putDeparments)
 
 //-------------------------------Delete-----------------------------------------
-router.delete('/departments/:id',deleteDepartments)
+router.delete('/departments/:id',deleteDepartment)
 
 export default router;

@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { pool} from '../db.js';
 
-import {deleteAssets, getAssets, getAssetsid, postAssets, putAssets} from "../controllers/assets.controllers.js"
+import {deleteAssets, getAssets, postAssets, putAssets} from "../controllers/assets.controllers.js"
 
 
 const router=Router()
@@ -13,7 +13,7 @@ router.get('/assets',getAssets)
 router.get('/assets/:id',getAssetsid)
 
 //-------------------------------Post-----------------------------------------
-router.post('/assets',postAssets)
+router.post('/asset',postAssets)
 
 //--------------------------------Put----------------------------------------
 router.put('/assets/:id',putAssets)

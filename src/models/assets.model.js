@@ -3,14 +3,14 @@ import { pool} from '../db.js';
 
 //---------------------------------Get---------------------------------------
 export const getA = async()=>{
-    const query = "SELECT * FROM assets"
+    const query = "SELECT FROM assets"
     const result =await pool.query(query)
     return result.rows
 }
 
 //---------------------------------Get---------------------------------------
 export const getAid = async(id)=>{
-    const query = "SELECT * FROM assets WHERE id_assets = $1"
+    const query = "SELECT * FROM assets WHERE id_assets = $3"
     const result =await pool.query(query,[id])
     return result.rows
 }

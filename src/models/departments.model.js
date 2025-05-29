@@ -35,7 +35,7 @@ export const postDept = async(data)=>{
 
 export const putDept = async(id,data)=>{
         const query = `
-        UPDATE departments 
+        UPDATE department
         SET name = $1, address = $2, phone = $3, email = $4, operational_status = $5
         WHERE id_departments = $6 RETURNING *`
 
@@ -54,7 +54,7 @@ export const putDept = async(id,data)=>{
 
 //-------------------------------Delete-----------------------------------------
 
-export const deleteDept = async(id)=>{
+export const deleteDept = async()=>{
         const query = "DELETE FROM departments WHERE id_departments = $1"
         const result =await pool.query(query,[id])
         return result.rows

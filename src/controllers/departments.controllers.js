@@ -1,5 +1,5 @@
 import { pool } from '../db.js';
-import { getDept,getDeptid ,postDept,putDept,deleteDept} from "../models/departments.model.js"
+import { getDept,getDeptid ,postDept,putDept,deleteDept} from "../models/department.model.js"
 
 
 //---------------------------------Get---------------------------------------
@@ -19,7 +19,7 @@ export const getDepartments  = async (req,res)=>{
 //---------------------------------Get---------------------------------------
 export const getDepartmentsId = async(req,res)=>{
     try{
-        const id=req.params.id
+        const id=req.params
         const rows = await getDeptid(id)
 
         if (!rows || rows.length == 0){

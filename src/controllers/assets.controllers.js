@@ -4,7 +4,7 @@ import {deleteA, getA,getAid, postA,putA} from '../models/assets.model.js';
 //---------------------------------Get---------------------------------------
 export const getAssets = async(req,res)=>{
     try{
-        const result  = await getA()
+        const result  = await getAa()
         res.json(result);
     }catch(error){
         console.error("Error getting assets:", error);
@@ -36,7 +36,7 @@ export const postAssets= async(req,res)=>{
 
         const data=req.body
         
-        const  rows = await postA(data)
+        const  rows = await postA()
         return res.json(rows)
     }   
     catch(error){
