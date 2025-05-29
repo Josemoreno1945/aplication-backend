@@ -1,9 +1,9 @@
-import { getU, getUid, createU, deleteU, updateU} from '../models/users.model.js';
+import { getU, getUid, createU, deleteUid, updateUid} from '../models/users.model.js';
 
 //get
-export const getusers = (req, res) => {
+export const getusers = async (req, res) => {
     try{
-        const rows = getU();
+        const rows = await getU();
         res.json(rows);
     }
 
@@ -48,13 +48,14 @@ export const createUsers = async (req, res) => {
 //delete
 export const deleteUsers = async (req, res) => {
     try{
-        const id=req.params;
+        const id=req.params.id;
         const rows = await deleteUid(id);
 
-        if (!rows || rows.length === 0) {
+        if (rows === 0) {
         return res.status(404).json({ message: "User not found" });
-        } else {
-            return res.status(204).json({ message: "User deleted successfully" });
+        } 
+        else {
+            return res.json({ message: "User deleted successfully" });
         }
     }
 

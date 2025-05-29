@@ -1,13 +1,15 @@
-import { getR, getRid, createR, deleteR, updateR} from '../models/reports.model.js';
+import { getR, getRid, createR, deleteRid, updateRid} from '../models/reports.model.js';
 
 //get
-export const getReport = (req, res) => {
+export const getReport = async (req, res) => {
     try{
-        const rows = getR();
+        
+        const rows = await getR();
         res.json(rows);
     }
 
     catch (error){
+        console.log("nose")
         console.error("Error getting Report:", error);
         res.status(500).send("Error getting Report");
     }
@@ -15,7 +17,7 @@ export const getReport = (req, res) => {
 
 export const getReportid = async (req, res) => {
     try{
-    const id=req.params;
+    const id=req.params.id;
     const rows = await getRid(id);
 
     if (!rows || rows.length === 0) {
@@ -48,13 +50,13 @@ export const createReport = async (req, res) => {
 //delete
 export const deleteReport = async (req, res) => {
     try{
-        const id=req.params;
+        const id=req.params.id;
         const rows = await deleteRid(id);
 
-        if (!rows || rows.length === 0) {
+        if (rows === 0) {
         return res.status(404).json({ message: "Report not found" });
         } else {
-            return res.status(204).json({ message: "Report deleted successfully" });
+            return res.json({ message: "Report deleted successfully" });
         }
     }
 
