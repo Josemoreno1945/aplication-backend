@@ -1,14 +1,6 @@
 import { Router } from "express";
-import { pool } from '../db.js';
-import {getDepartments} from "../controllers/departments.controllers.js"
 
-import {getDepartmentsId} from "../controllers/departments.controllers.js"
-
-import {postDeparments} from "../controllers/departments.controllers.js"
-
-import {putDeparments} from "../controllers/departments.controllers.js"
-
-import {deleteDepartments} from "../controllers/departments.controllers.js"
+import {getDepartments,getDepartmentsId,postDeparments,putDeparments,deleteDepartments} from "../controllers/departments.controllers.js"
 
 const router=Router()
 

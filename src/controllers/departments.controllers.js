@@ -7,6 +7,7 @@ export const getDepartments  = async (req,res)=>{
     try{
         const rows = await getDept()
         res.json(rows);
+
     }catch(error){
         console.error("Error getting department:", error);
         res.status(500).send("Error getting department");
@@ -21,7 +22,7 @@ export const getDepartmentsId = async(req,res)=>{
         const id=req.params.id
         const rows = await getDeptid(id)
 
-        if (!rows || rows.length === 0){
+        if (!rows || rows.length == 0){
             return res.status(404).json({ messaje : "Department not found"});
         }
         res.json(rows);

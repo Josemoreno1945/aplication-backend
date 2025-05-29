@@ -17,6 +17,11 @@ export const getAssetsid = async(req,res)=>{
     try{
         const id = req.params.id
         const result  = await getAid(id)
+
+        if (!result || result==0){
+            return res.status(404).json({ message : "Asset not found"});
+        }
+
         res.json(result);
     }catch(error){
         console.error("Error getting assets:", error);
@@ -28,8 +33,9 @@ export const getAssetsid = async(req,res)=>{
 //-------------------------------Post-----------------------------------------
 export const postAssets= async(req,res)=>{
     try{
-        const data=req.body[0]
-        console.log(data)
+
+        const data=req.body
+        
         const  rows = await postA(data)
         return res.json(rows)
     }   
@@ -43,7 +49,7 @@ export const postAssets= async(req,res)=>{
 export const putAssets = async(req,res)=>{
     try{
         const id = req.params.id
-        const data = req.body[0]
+        const data = req.body
         const rows = await putA(id,data)
         res.json(rows);
     }

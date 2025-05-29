@@ -18,7 +18,7 @@ export const getAid = async(id)=>{
 
 //---------------------------------Post---------------------------------------
 export const postA = async(data)=>{
-        console.log("Datos recibidos:", data); // 📌 Verifica que los datos llegan correctamente
+        console.log("Datos recibidos:", data); 
     const query = `INSERT INTO assets(id_inventory,type, classification, description, 
     color, brand, model, serial, height, width, depth, plate, bodywork, engine, year_of_the_vehicle, 
     acquisition_value, use_status, conservation_status, observation, physical_location, direction_dependency,
