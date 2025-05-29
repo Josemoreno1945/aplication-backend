@@ -9,7 +9,7 @@ export const getReport = async (req, res) => {
     }
 
     catch (error){
-        console.log("nose")
+        
         console.error("Error getting Report:", error);
         res.status(500).send("Error getting Report");
     }
@@ -53,7 +53,7 @@ export const deleteReport = async (req, res) => {
         const id=req.params.id;
         const rows = await deleteRid(id);
 
-        if (rows === 0) {
+        if (!rows || rows.length === 0) {
         return res.status(404).json({ message: "Report not found" });
         } else {
             return res.json({ message: "Report deleted successfully" });
