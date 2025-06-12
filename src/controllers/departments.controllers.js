@@ -6,6 +6,7 @@ import {
   putDept,
   deleteDept,
 } from "../models/departments.model.js";
+import departmentSchema from "../schemas/departments.schemas.js";
 
 //---------------------------------Get---------------------------------------
 export const getDepartments = async (req, res) => {
@@ -38,6 +39,12 @@ export const getDepartmentsId = async (req, res) => {
 export const postDeparments = async (req, res) => {
   try {
     const data = req.body;
+
+    const parsed = departmentSchema.safeParse(data);
+    if (!parsed.success) {
+      return res.status(400).json({ errors: parsed.error.errors });
+    }
+
     const rows = await postDept(data);
     return res.json(rows);
   } catch (error) {
