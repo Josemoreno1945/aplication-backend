@@ -1,5 +1,6 @@
 import { pool } from "../db.js";
 import { deleteA, getA, getAid, postA, putA } from "../models/assets.model.js";
+import assetsSchema from "../schemas/assets.schemas.js";
 
 //---------------------------------Get---------------------------------------
 export const getAssets = async (req, res) => {
@@ -33,6 +34,11 @@ export const getAssetsid = async (req, res) => {
 export const postAssets = async (req, res) => {
   try {
     const data = req.body;
+
+    const parsed = assetsSchema.safeParse(data);
+    if (!parsed.success) {
+      return res.status(400).json({ errors: parsed.error.errors });
+    }
 
     const rows = await postA(data);
     return res.json(rows);
