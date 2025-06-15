@@ -15,7 +15,7 @@ export const getRid = async (id) => {
 
 //post
 export const createR = async (data) => {
-    const query = "INSERT INTO report (id_users, date, hour, priority, description) VALUES ($1, $2, $3, $4, $5) RETURNING *"
+    const query = "INSERT INTO reports (id_users, date, hour, priority, description) VALUES ($1, $2, $3, $4, $5) RETURNING *"
     const values = [data.id_users, data.date, data.hour, data.priority, data.description]
     const result = await pool.query(query, values)
     return result.rows
@@ -29,7 +29,7 @@ export const deleteRid = async (id) => {
 }
 
 //put
-export const updateRid = async (id, data) => {
+export const updateRid = async (data) => {
     const query = "UPDATE report SET id_users = $1, date = $2, hour = $3, priority = $4, description = $5 WHERE id_support = $6 RETURNING *"
     const values = [data.id_users, data.date, data.hour, data.priority, data.description, id]
     const result = await pool.query(query, values)
