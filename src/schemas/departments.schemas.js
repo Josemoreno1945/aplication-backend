@@ -1,17 +1,20 @@
 import { z } from "zod";
 
-//name, address, phone, email, operational_status
-
 const departmentSchema = z.object({
   name: z
     .string()
-    .min(1, "El nombre de departamento debe tener minimo 10 caracteres"),
-  address: z.string().min(1, "La direccion debe tener minimo 10 caracteres"),
+    .min(1, "Department name cannot be empty")
+    .max(100, "Department name cannot exceed 100 characters"),
+  address: z
+    .string()
+    .min(1, "Address cannot be empty")
+    .max(150, "Address cannot exceed 150 characters"),
   phone: z
     .string()
-    .min(12, "El numero debe tener al menos 12 caracteres")
-    .max(15, "El numero no debe tener mas de 12 caracteres"),
-  email: z.string().email("Debe ser un correo válido"),
+    .regex(/^\d+$/, "Phone number must contain only digits")
+    .min(11, "Phone number must have at least 11 characters")
+    .max(15, "Phone number cannot exceed 15 characters"),
+  email: z.string().email("Must be a valid email"),
   operational_status: z.enum(["active", "inactive"]),
 });
 
