@@ -6,6 +6,7 @@ import {
   postDept,
   putDept,
   deleteDept,
+  getDeptEmail,
 } from "../models/departments.model.js";
 import departmentSchema from "../schemas/departments.schemas.js";
 
@@ -55,13 +56,31 @@ export const postDeparments = async (req, res, next) => {
       return res.status(400).json({ errors: parsed.error.errors }); //esquema validaciones
     }
 
+    //verificar email repetido
+    const emailExist = await getDeptEmail(data.email);
+    if (emailExist) {
+      const error = new Error("El correo ya está registrado");
+      error.status = 409;
+      throw error;
+    }
+
     const rows = await postDept(data);
     return res.json(rows);
   } catch (error) {
     return res.status(500).json({ error: error.message });
     /*
+    //--------------------------------------------------------------
+    if (error.code === "23506") {
+      error.status = 409;
+      error.message = "El correo ya está registrado";
+    }
+    if (error.code === "ECONNREFUSED") {
+      error.status = 503;
+      error.message = "No se pudo conectar a la base de datos";
+    }
+    //---------------------------------------------------------------
     next(error);
-  */
+    */
   }
 };
 
@@ -101,3 +120,5 @@ export const deleteDepartments = async (req, res) => {
     res.status(500).send("Error getting department");
   }
 };
+
+//---------------------------------------------------------------------------------------

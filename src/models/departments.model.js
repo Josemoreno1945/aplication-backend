@@ -1,3 +1,4 @@
+import { email } from "zod/v4";
 import { pool } from "../db.js";
 
 //---------------------------------Get---------------------------------------
@@ -58,4 +59,12 @@ export const deleteDept = async (id) => {
   const query = "DELETE FROM departments WHERE id_departments = $1";
   const result = await pool.query(query, [id]);
   return result.rows;
+};
+
+//-------------------------------------------------------------------------------
+
+export const getDeptEmail = async (email) => {
+  const query = "Select * FROM departments WHERE email=$1";
+  const result = await pool.query(query, [email]);
+  return !!result.rows[0];
 };
