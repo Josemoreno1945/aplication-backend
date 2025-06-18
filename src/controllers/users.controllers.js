@@ -1,10 +1,19 @@
-import { getU, getUid, createU, deleteUid, updateUid} from '../models/users.model.js';
+import { getUser, getUser_id, createUser, deleteUserid, updateUserid} from '../models/users.model.js';
+import userSchema from '../schemas/users.schemas.js';
+import bcrypt from 'bcryptjs';
 
 //get
 export const getusers = async (req, res) => {
     try{
-        const rows = await getU();
+        const rows = await getUser();
         res.json(rows);
+
+        const parseU = userSchema.safeParse();
+        if (!parseU.success) {
+            return res.status(400).json({
+                errors: parseU.error.errors
+            })
+        }
     }
 
     catch (error){
@@ -15,14 +24,22 @@ export const getusers = async (req, res) => {
 
 export const getUserid = async (req, res) => {
     try{
-    const id= req.params.id;
-    const result = await getUid(id);
+        const id= req.params.id;
+
+        const parseU = userSchema.safeParse();
+        if (!parseU.success) {
+            return res.status(400).json({
+                errors: parseU.error.errors
+            })
+        }
+        
+        const result = await getUser_id(id);
 
 
-    if (!rows || rows.length === 0) {
+        if (!rows || rows.length === 0) {
         return res.status(404).json({ message: "User not found"});
-    }
-    res.json(result);
+        }
+        res.json(result);
 
     } 
     
@@ -36,7 +53,18 @@ export const getUserid = async (req, res) => {
 export const createUsers = async (req, res) => {
     try{
         const data = req.body;
-        const rows = await createU(data);
+
+        const parseU = userSchema.safeParse(data);
+        if (!parseU.success) {
+            return res.status(400).json({
+                errors: parseU.error.errors
+            })
+        }
+
+        const hashedPassword = await bcrypt.hash(data.password, 10);
+        const userData = { ...data, password: hashedPassword };
+
+        const rows = await createUser(data);
         return res.json(rows)
     }
 
@@ -50,7 +78,7 @@ export const createUsers = async (req, res) => {
 export const deleteUsers = async (req, res) => {
     try{
         const id=req.params.id;
-        const rows = await deleteUid(id);
+        const rows = await deleteUserid(id);
 
         if (rows === 0) {
         return res.status(404).json({ message: "User not found" });
@@ -73,7 +101,7 @@ export const updateUsers = async (req, res) => {
     try{
         const id = req.params.id;
         const data = req.body;
-        const rows = await updateUid(id, data);
+        const rows = await updateUserid(id, data);
         res.json(rows);
     }
 
