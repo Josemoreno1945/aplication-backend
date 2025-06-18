@@ -6,7 +6,7 @@ const router=Router();
 router.get("/report", getReport
 );
 
-router.get("/report", getReportid
+router.get("/report/:id", getReportid
 );
 
 router.post("/report", createReport
@@ -15,7 +15,7 @@ router.post("/report", createReport
 router.delete("/report/:id", deleteReport
 );
 
-router.put("/report/:id", updateRepor
+router.put("/report/:id", updateReport
 );
 
 
