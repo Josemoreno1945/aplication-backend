@@ -1,3 +1,4 @@
+import { number } from "zod/v4";
 import { pool } from "../db.js";
 import {
   getDept,
@@ -9,47 +10,58 @@ import {
 import departmentSchema from "../schemas/departments.schemas.js";
 
 //---------------------------------Get---------------------------------------
-export const getDepartments = async (req, res) => {
+export const getDepartments = async (req, res, next) => {
   try {
     const rows = await getDept();
     res.json(rows);
   } catch (error) {
-    console.error("Error getting department:", error);
-    res.status(500).send("Error getting department");
+    next(error);
   }
 };
 
 //---------------------------------Get---------------------------------------
-export const getDepartmentsId = async (req, res) => {
+export const getDepartmentsId = async (req, res, next) => {
   try {
     const id = req.params.id;
-    const rows = await getDeptid(id);
 
-    if (!rows || rows.length == 0) {
-      return res.status(404).json({ messaje: "Department not found" });
+    //-----------------------------------------------------------
+    if (isNaN(id) || id < 0) {
+      const error = new Error("ID inválido");
+      error.status = 400;
+      throw error;
     }
+    const rows = await getDeptid(id); //verifico primero el id y despues llamo a la funcion
+
+    //-----------------------------------------------------------
+    if (!rows || rows.length == 0) {
+      const error = new Error("Department not found");
+      error.status = 404;
+      throw error;
+    }
+    //-----------------------------------------------------------
     res.json(rows);
   } catch (error) {
-    console.error("Error getting department:", error);
-    res.status(500).send("Error getting department");
+    next(error);
   }
 };
 
 //-------------------------------Post-----------------------------------------
-export const postDeparments = async (req, res) => {
+export const postDeparments = async (req, res, next) => {
   try {
     const data = req.body;
 
     const parsed = departmentSchema.safeParse(data);
     if (!parsed.success) {
-      return res.status(400).json({ errors: parsed.error.errors });
+      return res.status(400).json({ errors: parsed.error.errors }); //esquema validaciones
     }
 
     const rows = await postDept(data);
     return res.json(rows);
   } catch (error) {
-    console.error("Error when creating department:", error);
-    res.status(500).send("Error when creating department");
+    return res.status(500).json({ error: error.message });
+    /*
+    next(error);
+  */
   }
 };
 
@@ -58,6 +70,12 @@ export const putDeparments = async (req, res) => {
   try {
     const id = req.params.id;
     const data = req.body;
+
+    const parsed = departmentSchema.safeParse(data);
+    if (!parsed.success) {
+      return res.status(400).json({ errors: parsed.error.errors });
+    }
+
     const rows = await putDept(id, data);
     res.json(rows);
   } catch (error) {
