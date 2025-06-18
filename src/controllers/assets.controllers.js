@@ -53,6 +53,12 @@ export const putAssets = async (req, res) => {
   try {
     const id = req.params.id;
     const data = req.body;
+
+    const parsed = assetsSchema.safeParse(data);
+    if (!parsed.success) {
+      return res.status(400).json({ errors: parsed.error.errors });
+    }
+
     const rows = await putA(id, data);
     res.json(rows);
   } catch (error) {

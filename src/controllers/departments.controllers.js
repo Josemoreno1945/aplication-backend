@@ -20,18 +20,19 @@ export const getDepartments = async (req, res) => {
 };
 
 //---------------------------------Get---------------------------------------
-export const getDepartmentsId = async (req, res) => {
+export const getDepartmentsId = async (req, res, next) => {
   try {
     const id = req.params.id;
     const rows = await getDeptid(id);
 
     if (!rows || rows.length == 0) {
-      return res.status(404).json({ messaje: "Department not found" });
+      const error = new Error("Department not found");
+      error.status = 404;
+      throw error;
     }
     res.json(rows);
   } catch (error) {
-    console.error("Error getting department:", error);
-    res.status(500).send("Error getting department");
+    next(error);
   }
 };
 
@@ -58,6 +59,12 @@ export const putDeparments = async (req, res) => {
   try {
     const id = req.params.id;
     const data = req.body;
+
+    const parsed = departmentSchema.safeParse(data);
+    if (!parsed.success) {
+      return res.status(400).json({ errors: parsed.error.errors });
+    }
+
     const rows = await putDept(id, data);
     res.json(rows);
   } catch (error) {
