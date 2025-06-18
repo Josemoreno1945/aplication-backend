@@ -1,4 +1,4 @@
-import { getU, getUid, createU, deleteUid, updateUid} from '../models/users.model';
+import { getU, getUid, createU, deleteUid, updateUid} from '../models/users.model.js';
 
 //get
 export const getusers = async (req, res) => {
@@ -15,13 +15,14 @@ export const getusers = async (req, res) => {
 
 export const getUserid = async (req, res) => {
     try{
-    const id=req.params.id;
-    const rows = await getUid(id);
+    const id= req.params.id;
+    const result = await getUid(id);
+
 
     if (!rows || rows.length === 0) {
         return res.status(404).json({ message: "User not found"});
     }
-    res.json(rows);
+    res.json(result);
 
     } 
     

@@ -8,7 +8,7 @@ export const getU = async () => {
 }
 
 export const getUid = async (id) => {
-    const query = "SELECT * FROM user WHERE id_users = $1"
+    const query = "SELECT * FROM users WHERE id_users = $1"
     const result = await pool.query(query, [id])
     return result.rows
 }
@@ -17,7 +17,7 @@ export const getUid = async (id) => {
 export const createU = async (data) => {
     const query = "INSERT INTO users (first_name, last_name, user_name, password, id_roles, email, status, date) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *"
     const values = [data.first_name, data.last_name, data.user_name, data.password, data.id_roles, data.email, data.status, data.date]
-    const result = await pool.query(values)
+    const result = await pool.query(query, values)
     return result.rows
 }
 

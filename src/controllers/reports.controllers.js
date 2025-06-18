@@ -4,7 +4,7 @@ import { getR, getRid, createR, deleteRid, updateRid} from '../models/reports.mo
 export const getReport = async (req, res) => {
     try{
         
-        const rows = await get();
+        const rows = await getR();
         res.json(rows);
     }
 
@@ -18,7 +18,7 @@ export const getReport = async (req, res) => {
 export const getReportid = async (req, res) => {
     try{
     const id=req.params.id;
-    const rows = await getRid();
+    const rows = await getRid(id);
 
     if (!rows || rows.length === 0) {
         return res.status(404).json({ message: "Report not found"});

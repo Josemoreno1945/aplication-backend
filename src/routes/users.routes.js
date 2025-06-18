@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { createUsers, deleteUsers, getUserid, getUsers, updateUsers } from '../controllers/users.controllers.js'
+import { createUsers, deleteUsers, getUserid, getusers, updateUsers } from '../controllers/users.controllers.js'
 
 import { pool } from '../db.js';
 
@@ -10,7 +10,7 @@ const router=Router();
 router.get("/users", getusers
 );
 
-router.get("/users/:id_user", getUserid
+router.get("/users/:id", getUserid
 );
 
 router.post("/users", createUsers
