@@ -2,24 +2,25 @@ import { Router } from "express";
 
 import { createUsers, deleteUsers, getUserid, getusers, updateUsers } from '../controllers/users.controllers.js'
 
-import { pool } from '../db.js';
+import { verifyToken } from "../middlewares/auth.js";
+import { isAdmin } from "../middlewares/roles.js";
 
 
 const router=Router();
 
-router.get("/users", getusers
+router.get("/users", verifyToken, getusers
 );
 
-router.get("/users/:id", getUserid
+router.get("/users/:id", verifyToken, getUserid
 );
 
-router.post("/users", createUsers
+router.post("/users", verifyToken, isAdmin, createUsers
 );
 
-router.delete("/users/:id", deleteUsers
+router.delete("/users/:id", verifyToken, isAdmin, deleteUsers
 );
 
-router.put("/users/:id", updateUsers
+router.put("/users/:id", verifyToken, isAdmin, updateUsers
 );
 
 export default router;

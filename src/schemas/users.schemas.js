@@ -21,7 +21,8 @@ const userSchema = z.object({
     .regex(/[0-9]/, "The password must contain at least one number"),
   email: z
   .string().email("Must be a valid email"),
-  operational_status: z.enum(["active", "inactive"]),
+  status: z
+  .enum(["active", "inactive"]),
 });
 
 export default userSchema;
