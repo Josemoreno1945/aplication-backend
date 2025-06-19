@@ -8,13 +8,18 @@ import {
 } from "../models/departments.model.js";
 import departmentSchema from "../schemas/departments.schemas.js";
 import { errors, throwError } from "../utils/errors.js";
+import { handleDBError } from "../utils/errorsDB.js";
 //---------------------------------Get---------------------------------------
 export const getDepartments = async (req, res, next) => {
   try {
     const rows = await getDept();
     res.json(rows);
   } catch (error) {
-    next(error);
+    try {
+      handleDBError(error);
+    } catch (error) {
+      next(error);
+    }
   }
 };
 
@@ -82,7 +87,11 @@ export const putDeparments = async (req, res, next) => {
     const rows = await putDept(id, data);
     res.json(rows);
   } catch (error) {
-    next(error);
+    try {
+      handleDBError(error);
+    } catch (error) {
+      next(error);
+    }
   }
 };
 
