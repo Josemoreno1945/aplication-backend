@@ -1,37 +1,34 @@
-import { pool } from "../db.js";
 import { deleteA, getA, getAid, postA, putA } from "../models/assets.model.js";
 import assetsSchema from "../schemas/assets.schemas.js";
-
+import { errors, throwError } from "../utils/errors.js";
 //---------------------------------Get---------------------------------------
-export const getAssets = async (req, res) => {
+export const getAssets = async (req, res, next) => {
   try {
     const result = await getA();
     res.json(result);
   } catch (error) {
-    console.error("Error getting assets:", error);
-    res.status(500).send("Error getting assets");
+    next(error);
   }
 };
 
 //---------------------------------Get---------------------------------------
-export const getAssetsid = async (req, res) => {
+export const getAssetsid = async (req, res, next) => {
   try {
     const id = req.params.id;
     const result = await getAid(id);
 
     if (!result || result == 0) {
-      return res.status(404).json({ message: "Asset not found" });
+      throwError(errors.assetNotFound);
     }
 
     res.json(result);
   } catch (error) {
-    console.error("Error getting assets:", error);
-    res.status(500).send("Error getting assets");
+    next(error);
   }
 };
 
 //-------------------------------Post-----------------------------------------
-export const postAssets = async (req, res) => {
+export const postAssets = async (req, res, next) => {
   try {
     const data = req.body;
 
@@ -43,13 +40,12 @@ export const postAssets = async (req, res) => {
     const rows = await postA(data);
     return res.json(rows);
   } catch (error) {
-    console.error("Error when creating asset:", error);
-    res.status(500).send("Error when creating asset");
+    next(error);
   }
 };
 
 //--------------------------------Put----------------------------------------
-export const putAssets = async (req, res) => {
+export const putAssets = async (req, res, next) => {
   try {
     const id = req.params.id;
     const data = req.body;
@@ -62,25 +58,23 @@ export const putAssets = async (req, res) => {
     const rows = await putA(id, data);
     res.json(rows);
   } catch (error) {
-    console.error("Error updating asset:", error);
-    res.status(500).send("Error updating asset");
+    next(error);
   }
 };
 
 //-------------------------------Delete-----------------------------------------
 
-export const deleteAssets = async (req, res) => {
+export const deleteAssets = async (req, res, next) => {
   try {
     const id = req.params.id;
     const rows = await deleteA(id);
 
     if (rows === 0) {
-      return res.status(404).json({ message: "Asset not found" });
+      throwError(errors.assetNotFound);
     } else {
       return res.json({ message: "delete asset" });
     }
   } catch (error) {
-    console.error("Error getting asset:", error);
-    res.status(500).send("Error getting asset");
+    next(error);
   }
 };
