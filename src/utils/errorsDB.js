@@ -2,11 +2,21 @@ import { errors, throwError } from "../utils/errors.js";
 
 export function handleDBError(error) {
   switch (error.code) {
-    case "23505": // unique_violation
-      throwError(errors.dbConstraintError); // O errors.uniqueViolation si tienes uno más específico
-    case "23503": // foreign_key_violation
-      throwError(errors.dbConstraintError);
-    case "23502": // not_null_violation
-      throwError(errors.dbConstraintError);
+    case "23503":
+      throwError(errors.foreignKeyViolation);
+    case "23502":
+      throwError(errors.notNullViolation);
+
+    case "42601":
+      throwError(errors.querySyntaxError);
+
+    case "42804":
+      throwError(errors.dataTypeMismatch);
+
+    case "ECONNREFUSED":
+      throwError(errors.dbConnectionError);
+
+    default:
+      throw error; // Si no es un error conocido, lo relanzas
   }
 }
