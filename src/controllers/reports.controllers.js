@@ -7,14 +7,6 @@ export const getReport = async (req, res) => {
         
         const rows = await get_Report();
         res.json(rows);
-
-        const parseR = reportSchema.safeParse();
-        if (!parseR.success) {
-            return res.status(400).json({
-                errors: parseR.error.errors
-            })
-        }
-
     }
 
     catch (error){
@@ -27,14 +19,6 @@ export const getReport = async (req, res) => {
 export const getReportid = async (req, res) => {
     try{
     const id=req.params.id;
-
-    const parseR = reportSchema.safeParse();
-        if (!parseR.success) {
-            return res.status(400).json({
-                errors: parseR.error.errors
-            })
-        }
-
     const rows = await get_Reportid(id);
 
     if (!rows || rows.length === 0) {
@@ -98,6 +82,14 @@ export const updateReport = async (req, res) => {
     try{
         const id = req.params.id;
         const data = req.body;
+
+        const parseR = reportSchema.safeParse(data);
+        if (!parseR.success) {
+            return res.status(400).json({
+                errors: parseR.error.errors
+            })
+        }
+
         const rows = await updateReportid(id, data);
         res.json(rows);
     }
