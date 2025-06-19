@@ -1,8 +1,9 @@
 import { get_Report, get_Reportid, create_Report, deleteReportid, updateReportid} from '../models/reports.model.js';
 import reportSchema from '../schemas/report.schemas.js';
+import { errors, throwError } from "../utils/errors.js"
 
 //get
-export const getReport = async (req, res) => {
+export const getReport = async (req, res, next) => {
     try{
         
         const rows = await get_Report();
@@ -10,32 +11,33 @@ export const getReport = async (req, res) => {
     }
 
     catch (error){
-        
-        console.error("Error getting Report:", error);
-        res.status(500).send("Error getting Report");
+        next(error);
     }
 }
 
-export const getReportid = async (req, res) => {
+export const getReportid = async (req, res, next) => {
     try{
-    const id=req.params.id;
-    const rows = await get_Reportid(id);
+        const id= req.params.id;
+        if (isNaN(id) || id < 0) {
+              throwError(errors.invalidData);
+        }
+        
+        const rows = await get_Reportid(id);
+        if (!rows || rows.length == 0) {
+        throwError(errors.reportNotFound);
+        }
 
-    if (!rows || rows.length === 0) {
-        return res.status(404).json({ message: "Report not found"});
-    }
-    res.json(rows);
+        res.json(rows);
 
     } 
     
     catch (error) {
-        console.error("Error getting Report:", error);
-        res.status(500).send("Error getting Report");
+        next(error);
     }
 }
 
 //post
-export const createReport = async (req, res) => {
+export const createReport = async (req, res, next) => {
     try{
         const data = req.body;
 
@@ -51,36 +53,37 @@ export const createReport = async (req, res) => {
     }
 
     catch (error) {
-        console.error("Error creating Report:", error);
-        res.status(500).send("Error creating Report");
+        next(error);
     }
 }
 
 //delete
-export const deleteReport = async (req, res) => {
+export const deleteReport = async (req, res, next) => {
     try{
         const id=req.params.id;
         const rows = await deleteReportid(id);
 
         if (!rows || rows.length === 0) {
-        return res.status(404).json({ message: "Report not found" });
+            throwError(errors.reportNotFound)
         } else {
             return res.json({ message: "Report deleted successfully" });
         }
     }
 
     catch (error) {
-        console.error("Error deleting Report:", error);
-        return res.status(500).send("Error deleting Report");
+        next(error);
     }
 
     
 }
 
 //put
-export const updateReport = async (req, res) => {
+export const updateReport = async (req, res, next) => {
     try{
         const id = req.params.id;
+        if (isNaN(id) || id < 0) {
+              throwError(errors.invalidData);
+        }
         const data = req.body;
 
         const parseR = reportSchema.safeParse(data);
@@ -91,11 +94,13 @@ export const updateReport = async (req, res) => {
         }
 
         const rows = await updateReportid(id, data);
+        if (!rows || rows.length == 0) {
+        throwError(errors.reportNotFound);
+        }
         res.json(rows);
     }
 
     catch (error) {
-        console.error("Error updating Report:", error);
-        res.status(500).send("Error updating Report");
+        next(error);
     }
 }
