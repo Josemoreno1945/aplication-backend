@@ -7,13 +7,6 @@ export const getusers = async (req, res) => {
     try{
         const rows = await getUser();
         res.json(rows);
-
-        const parseU = userSchema.safeParse();
-        if (!parseU.success) {
-            return res.status(400).json({
-                errors: parseU.error.errors
-            })
-        }
     }
 
     catch (error){
@@ -25,13 +18,6 @@ export const getusers = async (req, res) => {
 export const getUserid = async (req, res) => {
     try{
         const id= req.params.id;
-
-        const parseU = userSchema.safeParse();
-        if (!parseU.success) {
-            return res.status(400).json({
-                errors: parseU.error.errors
-            })
-        }
         
         const result = await getUser_id(id);
 
@@ -101,6 +87,14 @@ export const updateUsers = async (req, res) => {
     try{
         const id = req.params.id;
         const data = req.body;
+
+        const parseU = userSchema.safeParse(data);
+        if (!parseU.success) {
+            return res.status(400).json({
+                errors: parseU.error.errors
+            })
+        }
+
         const rows = await updateUserid(id, data);
         res.json(rows);
     }
