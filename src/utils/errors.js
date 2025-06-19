@@ -50,7 +50,7 @@ export const errors = {
     message: "Invalid Password",
   },
 
-  // Errores generales de base de datos / consultas--------------------------------
+  // Errores generales de base de datos / consultas---------------------------------------------------------------
 
   dbConnectionError: {
     status: 503,

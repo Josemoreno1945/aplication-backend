@@ -10,6 +10,7 @@ import {
 
 import { verifyToken } from "../middlewares/auth.js";
 import { isAdmin } from "../middlewares/roles.js";
+import { errorHandler } from "../middlewares/errorHandler.js";
 const router = Router();
 
 //callback(funcion de retorno) la funcion en si
@@ -20,7 +21,7 @@ const router = Router();
 router.get("/departments", verifyToken, getDepartments);
 
 //------------------------------Get------------------------------------------
-router.get("/departments/:id", verifyToken, getDepartmentsId);
+router.get("/departments/:id", verifyToken, getDepartmentsId, errorHandler);
 
 //-------------------------------Post-----------------------------------------
 router.post("/departments", verifyToken, isAdmin, postDeparments);
