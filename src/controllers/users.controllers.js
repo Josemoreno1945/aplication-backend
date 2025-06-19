@@ -1,4 +1,4 @@
-import { getUser, getUser_id, createUser, deleteUserid, updateUserid} from '../models/users.model.js';
+import { getUser, getUser_id, createUser, deleteUserid, updateUserid, getUserName} from '../models/users.model.js';
 import userSchema from '../schemas/users.schemas.js';
 import bcrypt from 'bcryptjs';
 
@@ -47,10 +47,14 @@ export const createUsers = async (req, res) => {
             })
         }
 
-        const hashedPassword = await bcrypt.hash(data.password, 10);
+        const hashedPassword = await bcrypt.hash(data.password, 8);
         const userData = { ...data, password: hashedPassword };
+        const rows = await createUser(userData);
+        
+        const emailExiste = await getUserEmail(data.email);
+        const usernameExiste = await getUserName(data.user_name);
 
-        const rows = await createUser(data);
+
         return res.json(rows)
     }
 

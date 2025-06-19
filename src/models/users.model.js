@@ -35,3 +35,15 @@ export const updateUserid = async (id, data) => {
     const result = await pool.query(query, values)
     return result.rows
 }
+
+export const getUserEmail = async (email) => {
+    const query = "SELECT * FROM users WHERE email = $1";
+    const result = await pool.query(query, [email]);
+    return !!result.rows[0];
+}
+
+export const getUserName = async (user_name) => {
+    const query = "SELECT * FROM users WHERE user_name = $1";
+    const result = await pool.query(query, [user_name]);
+    return !!result.rows[0];
+}
