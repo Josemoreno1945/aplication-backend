@@ -13,7 +13,7 @@ export const getLogin = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    const validPassword = password === user.password; //aqui comparamos la contrase;a q se manda  y la q se tiene en la bdd
+    const validPassword = await bcrypt.compare(password, user.password); //aqui comparamos la contrase;a q se manda  y la q se tiene en la bdd
 
     if (!validPassword) {
       return res.status(401).json({ message: "Invalid password" });
@@ -30,6 +30,6 @@ export const getLogin = async (req, res) => {
     res.json({ token });
   } catch (error) {
     console.error("Error in login:", error);
-    res.status(500).send("Error getting email");
+    res.status(500).send("Error in login");
   }
 };
