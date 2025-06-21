@@ -73,6 +73,10 @@ export const putDeparments = async (req, res, next) => {
     const id = req.params.id;
     const data = req.body;
 
+    if (isNaN(id) || id < 0) {
+      throwError(errors.invalidData);
+    }
+
     const parsed = departmentSchema.safeParse(data);
     if (!parsed.success) {
       return res.status(400).json({ errors: parsed.error.errors });
