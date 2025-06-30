@@ -3,7 +3,6 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { JWT_SECRET } from "../config.js";
 import { errors, throwError } from "../utils/errors.js";
-import { use } from "react";
 
 export const getLogin = async (req, res, next) => {
   try {
