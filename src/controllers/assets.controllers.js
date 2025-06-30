@@ -57,7 +57,7 @@ export const postAssets = async (req, res, next) => {
     }
 
     const rows = await postA(data);
-    return res.json(rows);
+    return res.json({ rows, message: "Asset register" });
   } catch (error) {
     next(error);
   }
@@ -75,7 +75,7 @@ export const putAssets = async (req, res, next) => {
     }
 
     const rows = await putA(id, data);
-    res.json(rows);
+    res.json({ rows, message: "Asset updated" });
   } catch (error) {
     next(error);
   }
