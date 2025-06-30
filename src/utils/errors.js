@@ -7,7 +7,7 @@ export function throwError(errorObj) {
 }
 
 export const errors = {
-  // Usuarios-----------------------------------------
+  // Usuarios
   userNotFound: {
     status: 404,
     message: "User not found",
@@ -20,7 +20,7 @@ export const errors = {
     status: 409,
     message: "the email is already registered",
   },
-  // Departamentos-------------------------------------
+  // Departamentos
   departmentNotFound: {
     status: 404,
     message: "Department not found",
@@ -33,24 +33,27 @@ export const errors = {
     status: 409,
     message: "the email is already registered",
   },
-  // Assets--------------------------------------------
+  // Assets
   assetNotFound: {
     status: 404,
     message: "Asset not found",
   },
-  // Reportes------------------------------------------
+  // Reportes
   reportNotFound: {
     status: 404,
     message: "Report not found",
   },
 
-  //login-----------------------------------------------
+  //login
   InvalidPassword: {
     status: 401,
     message: "Invalid Password",
   },
 
+
+
   // Errores generales de base de datos / consultas---------------------------------------------------------------
+
 
   dbConnectionError: {
     status: 503,
@@ -72,6 +75,14 @@ export const errors = {
     status: 400,
     message: "Data type mismatch in query",
   },
+
+  rowNotFound: {
+    status: 404,
+    message: "No data found for the query",
+  },
+
+
+
   //Error de autenticacion o token---------------------------------------------------------
   unauthorized: {
     status: 403,
@@ -86,7 +97,7 @@ export const errors = {
     message: "Invalid token",
   },
 
-  // Otros errores comunes--------------------------------------------------------
+  // Otros errores comunes
   missingFields: {
     status: 400,
     message: "Missing required fields",

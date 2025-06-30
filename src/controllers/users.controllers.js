@@ -1,6 +1,7 @@
-import { getUser, getUser_id, createUser, deleteUserid, updateUserid, getUserName} from '../models/users.model.js';
+import { getUser, getUser_id, createUser, deleteUserid, updateUserid, getUserName, getUserEmail} from '../models/users.model.js';
 import userSchema from '../schemas/users.schemas.js';
 import bcrypt from 'bcryptjs';
+import { errors, throwError } from "../utils/errors.js"
 
 //get
 export const getusers = async (req, res) => {
@@ -10,33 +11,33 @@ export const getusers = async (req, res) => {
     }
 
     catch (error){
-        console.error("Error getting User:", error);
-        res.status(500).send("Error getting User");
+        next(error);
     }
 }
 
-export const getUserid = async (req, res) => {
+export const getUserid = async (req, res, next) => {
     try{
         const id= req.params.id;
-        
-        const result = await getUser_id(id);
-
-
-        if (!rows || rows.length === 0) {
-        return res.status(404).json({ message: "User not found"});
+        if (isNaN(id) || id < 0) {
+              throwError(errors.invalidData);
         }
-        res.json(result);
+        
+        const rows = await getUser_id(id);
+        if (!rows || rows.length == 0) {
+        throwError(errors.userNotFound);
+        }
+
+        res.json(rows);
 
     } 
     
     catch (error) {
-        console.error("Error getting User:", error);
-        res.status(500).send("Error getting User");
+        next(error);
     }
 }
 
 //post
-export const createUsers = async (req, res) => {
+export const createUsers = async (req, res, next) => {
     try{
         const data = req.body;
 
@@ -47,31 +48,35 @@ export const createUsers = async (req, res) => {
             })
         }
 
+        const emailExiste = await getUserEmail(data.email);
+        if(emailExiste){
+            throwError(errors.User_emailDuplicated)
+        }
+
+        const usernameExiste = await getUserName(data.user_name);
+        if(usernameExiste){
+            throwError(errors.userDuplicated)
+        }
+
         const hashedPassword = await bcrypt.hash(data.password, 8);
         const userData = { ...data, password: hashedPassword };
         const rows = await createUser(userData);
-        
-        const emailExiste = await getUserEmail(data.email);
-        const usernameExiste = await getUserName(data.user_name);
-
-
         return res.json(rows)
     }
 
     catch (error) {
-        console.error("Error creating User:", error);
-        res.status(500).send("Error creating User");
+        next(error);
     }
 }
 
 //delete
-export const deleteUsers = async (req, res) => {
+export const deleteUsers = async (req, res, next) => {
     try{
         const id=req.params.id;
         const rows = await deleteUserid(id);
 
         if (rows === 0) {
-        return res.status(404).json({ message: "User not found" });
+            throwError(errors.userNotFound)
         } 
         else {
             return res.json({ message: "User deleted successfully" });
@@ -79,17 +84,19 @@ export const deleteUsers = async (req, res) => {
     }
 
     catch (error) {
-        console.error("Error deleting User:", error);
-        return res.status(500).send("Error deleting User");
+        next(error);
     }
 
     
 }
 
 //put
-export const updateUsers = async (req, res) => {
+export const updateUsers = async (req, res, next) => {
     try{
         const id = req.params.id;
+         if (isNaN(id) || id < 0) {
+              throwError(errors.invalidData);
+        }
         const data = req.body;
 
         const parseU = userSchema.safeParse(data);
@@ -99,12 +106,26 @@ export const updateUsers = async (req, res) => {
             })
         }
 
+         const emailExiste = await getUserEmail(data.email);
+        if(emailExiste){
+            throwError(errors.User_emailDuplicated)
+        }
+
+        const usernameExiste = await getUserName(data.user_name);
+        if(usernameExiste){
+            throwError(errors.userDuplicated)
+        }
+
         const rows = await updateUserid(id, data);
         res.json(rows);
     }
 
     catch (error) {
-        console.error("Error updating User:", error);
-        res.status(500).send("Error updating User");
+        next(error);
     }
 }
+
+//   {
+//    "user_name": "mariajose.s",
+//    "password": "Mj1234567"
+//    }
