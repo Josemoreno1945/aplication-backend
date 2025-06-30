@@ -5,6 +5,7 @@ import {
   putDept,
   deleteDept,
   getDeptEmail,
+  getADept,
 } from "../models/departments.model.js";
 import departmentSchema from "../schemas/departments.schemas.js";
 import { errors, throwError } from "../utils/errors.js";
@@ -89,7 +90,7 @@ export const putDeparments = async (req, res, next) => {
     }
 
     const rows = await putDept(id, data);
-    res.json(rows);
+    res.json({ rows, message: "Department updated" });
   } catch (error) {
     try {
       handleDBError(error);
@@ -117,3 +118,21 @@ export const deleteDepartments = async (req, res, next) => {
 };
 
 //---------------------------------------------------------------------------------------
+getADept;
+
+//---------------------------------Get assests departments---------------------------------------
+export const getAssetsDepartments = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    if (isNaN(id) || id < 0) {
+      throwError(errors.invalidData);
+    }
+    const rows = await getADept(id);
+    if (!rows || rows.length == 0) {
+      throwError(errors.departmentNotFound);
+    }
+    res.json(rows);
+  } catch (error) {
+    next(error);
+  }
+};
