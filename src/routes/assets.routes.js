@@ -7,6 +7,7 @@ import {
   getAssetsid,
   postAssets,
   putAssets,
+  getinventoryid,
 } from "../controllers/assets.controllers.js";
 import { verifyToken } from "../middlewares/auth.js";
 import { isAdmin } from "../middlewares/roles.js";
@@ -18,6 +19,8 @@ router.get("/assets", verifyToken, getAssets);
 
 //---------------------------------Get---------------------------------------
 router.get("/assets/:id", verifyToken, getAssetsid);
+//---------------------------------Get---------------------------------------
+router.get("/assetsinventory/:id", verifyToken, getinventoryid);
 
 //-------------------------------Post-----------------------------------------
 router.post("/assets", verifyToken, isAdmin, postAssets);

@@ -29,7 +29,15 @@ export const getLogin = async (req, res, next) => {
     //se genera el token
 
     const token = jwt.sign(
-      { id: user.id_users, email: user.user_name, role: user.id_roles },
+      {
+        id: user.id_users,
+        username: user.user_name,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        email: user.email,
+        phone: user.phone,
+        role: user.id_roles,
+      },
       JWT_SECRET,
       { expiresIn: "24h" }
     );

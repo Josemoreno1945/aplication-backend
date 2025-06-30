@@ -14,14 +14,20 @@ export const getAid = async (id) => {
   return result.rows;
 };
 
+//---------------------------------Get---------------------------------------
+export const getInvid = async (id) => {
+  const query = `SELECT id_inventory FROM inventory WHERE id_departments = $1 `;
+  const result = await pool.query(query, [id]);
+  return result.rows[0];
+};
+
 //---------------------------------Post---------------------------------------
 export const postA = async (data) => {
-  console.log("Datos recibidos:", data);
-  const query = `INSERT INTO assets(id_inventory,type, classification, description, 
+  const query = `INSERT INTO assets(id_assets,id_inventory,type, classification, description, 
     color, brand, model, serial, height, width, depth, plate, bodywork, engine, year_of_the_vehicle, 
     acquisition_value, use_status, conservation_status, observation, physical_location, direction_dependency,
     level, analyst)
-    VALUES ($1, $2, $3, $4, $5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23) RETURNING *`;
+    VALUES (uuid_generate_v4(), $1, $2, $3, $4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23) RETURNING *`;
 
   const values = [
     data.id_inventory,

@@ -50,24 +50,18 @@ export const errors = {
     message: "Invalid Password",
   },
 
-  // Errores generales de base de datos / consultas
+
+
+  // Errores generales de base de datos / consultas---------------------------------------------------------------
+
 
   dbConnectionError: {
     status: 503,
     message: "Database connection error",
   },
-  dbConstraintError: {
-    status: 409,
-    message: "Database constraint violation",
-  },
-
   querySyntaxError: {
     status: 400,
     message: "SQL syntax error",
-  },
-  queryTimeout: {
-    status: 504,
-    message: "Database query timeout",
   },
   foreignKeyViolation: {
     status: 409,
@@ -81,12 +75,15 @@ export const errors = {
     status: 400,
     message: "Data type mismatch in query",
   },
+
   rowNotFound: {
     status: 404,
     message: "No data found for the query",
   },
 
-  //Error de autenticacion o token
+
+
+  //Error de autenticacion o token---------------------------------------------------------
   unauthorized: {
     status: 403,
     message: "Admin-only access",
