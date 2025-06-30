@@ -6,6 +6,7 @@ import {
   postDeparments,
   putDeparments,
   deleteDepartments,
+  getAssetsDepartments,
 } from "../controllers/departments.controllers.js";
 
 import { verifyToken } from "../middlewares/auth.js";
@@ -31,5 +32,7 @@ router.put("/departments/:id", verifyToken, isAdmin, putDeparments);
 
 //-------------------------------Delete-----------------------------------------
 router.delete("/departments/:id", verifyToken, isAdmin, deleteDepartments);
+
+router.get("/AssetsDepartments/:id", verifyToken, getAssetsDepartments);
 
 export default router;

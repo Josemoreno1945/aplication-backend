@@ -68,3 +68,14 @@ export const getDeptEmail = async (email) => {
   const result = await pool.query(query, [email]);
   return !!result.rows[0];
 };
+
+//---------------------------------Get_assets_dept---------------------------------------
+export const getADept = async (id) => {
+  const query = `
+  SELECT * FROM assets
+  JOIN inventory on inventory.id_inventory = assets.id_inventory
+  JOIN departments on departments.id_departments = inventory.id_departments
+  WHERE departments.id_departments= $1`;
+  const result = await pool.query(query, [id]);
+  return result.rows;
+};

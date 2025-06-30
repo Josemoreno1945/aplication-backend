@@ -112,9 +112,11 @@ CREATE TABLE IF NOT EXISTS public.users
     first_name character varying(100) COLLATE pg_catalog."default" NOT NULL,
     last_name character varying(100) COLLATE pg_catalog."default" NOT NULL,
     user_name character varying(100) COLLATE pg_catalog."default" NOT NULL,
-    password character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    password character varying(255) COLLATE pg_catalog."default" NOT NULL,
     id_roles integer,
     email character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    status user_status NOT NULL DEFAULT 'active'::user_status,
+    date timestamp without time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT users_pkey PRIMARY KEY (id_users),
     CONSTRAINT users_email_key UNIQUE (email),
     CONSTRAINT users_user_name_key UNIQUE (user_name)
@@ -132,14 +134,14 @@ ALTER TABLE IF EXISTS public.assets
     ADD CONSTRAINT assets_id_inventory_fkey FOREIGN KEY (id_inventory)
     REFERENCES public.inventory (id_inventory) MATCH SIMPLE
     ON UPDATE NO ACTION
-    ON DELETE NO ACTION;
+    ON DELETE CASCADE;
 
 
 ALTER TABLE IF EXISTS public.inventory
     ADD CONSTRAINT inventory_id_departments_fkey FOREIGN KEY (id_departments)
     REFERENCES public.departments (id_departments) MATCH SIMPLE
     ON UPDATE NO ACTION
-    ON DELETE NO ACTION;
+    ON DELETE CASCADE;
 
 
 ALTER TABLE IF EXISTS public.report
@@ -171,10 +173,10 @@ ALTER TABLE IF EXISTS public.users
 
 
 ALTER TABLE IF EXISTS public.users_departments
-    ADD CONSTRAINT users_departments_id_departments_fkey FOREIGN KEY (id_departments)
+    ADD CONSTRAINT users_departments_department_id_fkey FOREIGN KEY (id_departments)
     REFERENCES public.departments (id_departments) MATCH SIMPLE
     ON UPDATE NO ACTION
-    ON DELETE NO ACTION;
+    ON DELETE CASCADE;
 
 
 ALTER TABLE IF EXISTS public.users_departments
