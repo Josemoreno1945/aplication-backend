@@ -1,4 +1,11 @@
-import { deleteA, getA, getAid, postA, putA } from "../models/assets.model.js";
+import {
+  deleteA,
+  getA,
+  getAid,
+  postA,
+  putA,
+  getInvid,
+} from "../models/assets.model.js";
 import assetsSchema from "../schemas/assets.schemas.js";
 import { errors, throwError } from "../utils/errors.js";
 //---------------------------------Get---------------------------------------
@@ -20,6 +27,18 @@ export const getAssetsid = async (req, res, next) => {
     if (!result || result == 0) {
       throwError(errors.assetNotFound);
     }
+
+    res.json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
+//---------------------------------Get---------------------------------------
+export const getinventoryid = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const result = await getInvid(id);
 
     res.json(result);
   } catch (error) {

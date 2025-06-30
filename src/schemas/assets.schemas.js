@@ -96,11 +96,7 @@ const assetsSchema = z
           path: ["width"],
           message: "Furniture must have a width",
         });
-      if (!data.depth)
-        ctx.addIssue({
-          path: ["depth"],
-          message: "Furniture must have a depth",
-        });
+
       if (
         data.plate ||
         data.bodywork ||

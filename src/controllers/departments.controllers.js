@@ -62,7 +62,7 @@ export const postDeparments = async (req, res, next) => {
       throwError(errors.Dpt_emailDuplicated);
     }
     const rows = await postDept(data);
-    return res.json(rows);
+    return res.json({ rows, message: "Department register" });
   } catch (error) {
     next(error);
   }
