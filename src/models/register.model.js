@@ -1,6 +1,6 @@
 import { pool } from '../db.js';
 
-export const postRegister = async (data) => {
+export const registerUser = async (data) => {
     const query = `INSERT INTO "users" ("first_name", "last_name", "user_name", "password", "email") VALUES ($1, $2, $3, $4, $5)`;
 
     const values = [data.first_name, data.last_name, data.user_name, data.password, data.email, 2];
