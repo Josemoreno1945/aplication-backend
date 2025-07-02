@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const userSchema = z.object({
+const registerSchema = z.object({
   first_name: z
     .string()
     .min(1, "The first name cannot be empty")
@@ -20,9 +20,7 @@ const userSchema = z.object({
     .regex(/[a-z]/, "The password must contain at least one lowercase letter")
     .regex(/[0-9]/, "The password must contain at least one number"),
   email: z
-  .string().email("Must be a valid email"),
- // status: z
- // .enum(["active", "inactive"]),
+  .string().email("Must be a valid email")
 });
 
-export default userSchema;
+export default registerSchema;
