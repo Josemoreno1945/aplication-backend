@@ -9,6 +9,7 @@ import dashboardRoutes from "./routes/dashboard.routes.js";
 import reportRoutes from "./routes/reports.routes.js";
 
 import loginRoutes from "./routes/login.routes.js";
+import pdf from "./routes/pdf.routes.js";
 
 import morgan from "morgan";
 
@@ -22,6 +23,7 @@ app.use(departmentsRoutes);
 app.use(assetsRoutes);
 app.use(dashboardRoutes);
 app.use(loginRoutes);
+app.use(pdf);
 app.use(errorHandler);
 
 app.listen(PORT);
