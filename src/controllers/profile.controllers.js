@@ -1,4 +1,4 @@
-import { getProfile, getProfileId } from '../models/profile.model.js';
+import { getProfileId } from '../models/profile.model.js';
 import userSchema from '../schemas/users.schemas.js';
 import { errors, throwError } from "../utils/errors.js"
 
