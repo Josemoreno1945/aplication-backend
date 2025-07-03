@@ -1,7 +1,7 @@
 import app from "./app.js";
 import express from "express";
 import { PORT } from "./config.js";
-import { pool } from "./db.js";
+
 import usersRoutes from "./routes/users.routes.js";
 import departmentsRoutes from "./routes/departments.routes.js";
 import assetsRoutes from "./routes/assets.routes.js";
@@ -18,16 +18,6 @@ import { errorHandler } from "./middlewares/errorHandler.js";
 
 app.use(morgan("dev"));
 app.use(express.json());
-
-app.get("/test-db", async (req, res) => {
-  try {
-    const result = await pool.query("SELECT NOW()");
-    res.json(result.rows[0]);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Error al conectar con la base de datos");
-  }
-});
 
 app.use(usersRoutes);
 app.use(reportRoutes);
