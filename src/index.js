@@ -16,6 +16,15 @@ import morgan from "morgan";
 
 import { errorHandler } from "./middlewares/errorHandler.js";
 
+app.get("/", (req, res) => {
+  res.send("¡Bienvenido a la API Backend!");
+});
+
+app.get("/ping", async (req, res) => {
+  const result = await pool.query("SELECT NOW()");
+  return res.json(result.rows[0]);
+});
+
 app.use(morgan("dev"));
 app.use(express.json());
 
