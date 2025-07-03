@@ -2,7 +2,7 @@ import { pool } from '../db.js';
 
 //get
 export const getUser = async () => {
-    const query = "SELECT * FROM users"
+    const query = "SELECT id_users, first_name, last_name, user_name, password, roles.name as rol, email, status, date FROM users JOIN roles on roles.id_roles = users.id_roles"
     const result = await pool.query(query)
     return result.rows
 }

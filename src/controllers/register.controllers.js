@@ -1,10 +1,10 @@
-import { registerUser } from "../models/register.models.js";
-import { getUser, getUser_id, createUser, deleteUserid, updateUserid, getUserName, getUserEmail } from "../models/user.models.js";
+import { registerUser } from "../models/register.model.js";
+import { getUser, getUser_id, createUser, deleteUserid, updateUserid, getUserName, getUserEmail } from "../models/users.model.js";
 import registerSchema from "../schemas/register.schemas.js";
 import bcrypt from "bcryptjs";
 import { errors, throwError } from "../utils/errors.js";
 
-export const posRegister = async (rq, res, next) => {
+export const postRegister = async (req, res, next) => {
     try{
         const data = req.body;
 
