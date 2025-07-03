@@ -15,8 +15,8 @@ export const get_Reportid = async (id) => {
 
 //post
 export const create_Report = async (data) => {
-    const query = "INSERT INTO report (id_users, date, hour, priority, description) VALUES ($1, $2, $3, $4, $5) RETURNING *"
-    const values = [data.id_users, data.date, data.hour, data.priority, data.description]
+    const query = "INSERT INTO report (date, hour, priority, description, id_assets) VALUES ($1, $2, $3, $4, $5) RETURNING *"
+    const values = [data.date, data.hour, data.priority, data.description, data.id_assets]
     const result = await pool.query(query, values)
     return result.rows
 }

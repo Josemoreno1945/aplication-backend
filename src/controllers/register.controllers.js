@@ -1,20 +1,18 @@
 import { registerUser } from "../models/register.model.js";
-import {
-  getUser,
-  getUser_id,
-  createUser,
-  deleteUserid,
-  updateUserid,
-  getUserName,
-  getUserEmail,
-} from "../models/users.model.js";
+
+import { getUser, getUser_id, createUser, deleteUserid, updateUserid, getUserName, getUserEmail } from "../models/users.model.js";
+
+
 import registerSchema from "../schemas/register.schemas.js";
 import bcrypt from "bcryptjs";
 import { errors, throwError } from "../utils/errors.js";
 
-export const postRegister = async (rq, res, next) => {
-  try {
-    const data = req.body;
+
+export const postRegister = async (req, res, next) => {
+    try{
+        const data = req.body;
+
+
 
     const parseRegister = registerSchema.safeParse(data);
     if (!parseRegister.success) {
