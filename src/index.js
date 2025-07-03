@@ -1,6 +1,7 @@
 import app from "./app.js";
 import express from "express";
 import { PORT } from "./config.js";
+import { pool } from "pg";
 
 import usersRoutes from "./routes/users.routes.js";
 import departmentsRoutes from "./routes/departments.routes.js";
