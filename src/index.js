@@ -10,7 +10,6 @@ import registerRoutes from "./routes/register.routes.js";
 import reportRoutes from "./routes/reports.routes.js";
 
 import loginRoutes from "./routes/login.routes.js";
-import pdf from "./routes/pdf.routes.js";
 
 import morgan from "morgan";
 
@@ -27,8 +26,6 @@ app.use(loginRoutes);
 
 app.use(profileRoutes);
 app.use(registerRoutes);
-
-app.use(pdf);
 
 app.use(errorHandler);
 
